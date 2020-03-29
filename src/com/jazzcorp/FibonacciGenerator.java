@@ -2,24 +2,18 @@ package com.jazzcorp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class FibonacciGenerator {
 
     public static void main(String[] args) {
-        generateFibonacci(100);
+        generateFibonacci(10).forEach(System.out::println);
     }
 
-    public static void generateFibonacci(int max){
-        List<Integer> list = new ArrayList<Integer>();
-        list.add(0);
-        list.add(1);
-
-        for(int i=1; ; i++){
-            int currentValue = list.get(i) + list.get(i-1);
-            if(currentValue > max) break;
-            list.add(currentValue);
-        }
-
-        list.stream().forEach(System.out::println);
+    public static List<Integer> generateFibonacci(int max) {
+        List<Integer> series = Stream.iterate(new int[]{0, 1}, t -> new int[]{t[1], t[0] + t[1]}).limit(max).map(t -> t[0]).collect(Collectors.toList());
+        return series;
     }
 }
